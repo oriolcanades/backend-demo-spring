@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: demo
+  profiles:
+    active: ${ENVIRONMENT}
+  datasource:
+    url: jdbc:postgresql://postgresql:5432/${POSTGRES_DB}?schema=${POSTGRES_SCHEMA}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    open-in-view: false
+  flyway:
+    url: jdbc:postgresql://postgresql:5432/${POSTGRES_DB}
+    default-schema: ${POSTGRES_DB}
+    schemas: ${POSTGRES_SCHEMA}
+    locations: classpath:db/migration
+    user: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, prometheus
+      base-path: /
+      path-mapping:
+        health: health
+        prometheus: prometheus
+    access:
+      default: read_only
